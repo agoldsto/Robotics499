@@ -1,10 +1,9 @@
 /* Dynamixel Two Motors
 
 Turns two dynamixel at varying degrees and periods
-
-Turns one dynamixel left 90 degrees, then turns right 90 degrees for a period of 2 seconds repeatedly
+Turns one dynamixel left 45 degrees, then turns right 45 degrees for a period of 2 seconds repeatedly
 Turns the other dynamixel left 180 degrees, then turns right 180 degrees for a period of 1 second repeatedly
- 
+
 */
  
 /* Serial device defines for dxl bus */
