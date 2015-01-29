@@ -1,0 +1,18 @@
+/* Blink(LED)
+ 
+ Turns on the built-in LED(Status LED) on for 1 second, then off for 1 second,
+ repeatedly.
+         
+*/
+
+void setup() {
+  // Set up the built-in LED pin as an output:
+  pinMode(BOARD_LED_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(BOARD_LED_PIN, HIGH); // set to as HIGH LED is turn-off
+  delay(1000);          // Wait for 1 second
+  digitalWrite(BOARD_LED_PIN, LOW);  // set to as LOW LED is turn-on
+  delay(1000);          // Wait for 1 second
+}
