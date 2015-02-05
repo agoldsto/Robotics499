@@ -6,6 +6,7 @@ Prints "Hello Robot" to terminal every second
 #include <unistd.h>
 
 main(){
+
 	while(1 > 0){
 		printf("Hello Robot\n");
 		sleep(1);
