@@ -1,0 +1,77 @@
+const int analogInPin0 = 0; //Analog input pin for Left IR sensor
+const int analogInPin2 = 2; //Analog input pin for Front IR sensor
+const int analogInPin4 = 4; //Analog input pin for Right IR sensor
+
+#define DXL_BUS_SERIAL1 1  //Dynamixel on Serial1(USART1)  <-OpenCM9.04
+
+Dynamixel Dxl(DXL_BUS_SERIAL1);
+
+// These variables will change:
+int sensorValueL = 0;        // value read from the Left IR sensor
+int outputValueL = 0;        // value output to the adc (Left)
+int sensorValueF = 0;       
+int outputValueF = 0;  
+int sensorValueR = 0;       
+int outputValueR = 0;  
+
+void setup() {
+  // Configure the ADC pin
+  pinMode(analogInPin0, INPUT_ANALOG);
+  pinMode(analogInPin2, INPUT_ANALOG);
+  pinMode(analogInPin4, INPUT_ANALOG);
+  
+  // Initialize the dynamixel bus:
+  // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps 
+  Dxl.begin(3);
+  Dxl.wheelMode(1); //wheelMode() is to use wheel mode
+  Dxl.wheelMode(2);
+}
+
+void loop() {
+  
+  //Bit to voltage conversion for 12 bit value
+  float bitVal = 3.3/(2^12);
+  
+  for (int delayVal = 0; delayVal < 2000; delayVal += 100){
+    
+    // print the results to the serial monitor:
+    // read the analog in value:
+    sensorValueL = analogRead(analogInPin0);
+    sensorValueF = analogRead(analogInPin2);
+    sensorValueR = analogRead(analogInPin4);
+
+    //map it to the range of the analog out:
+    int normalizedValL = sensorValueL*bitVal;
+    int normalizedValF = sensorValueF*bitVal;
+    int normalizedValR = sensorValueR*bitVal;
+    
+    SerialUSB.print("\n Left Sensor = " );
+    SerialUSB.print(normalizedValL);
+    SerialUSB.print("  Front Sensor = " );
+    SerialUSB.print(normalizedValF);
+    SerialUSB.print("  Right Sensor = " );
+    SerialUSB.print(normalizedValR);
+    delay(100);
+    
+    if(normalizedValF > 400){
+      Dxl.goalSpeed(1, 400 | 0x400); //reverse
+      Dxl.goalSpeed(2, 400 | 0x400); 
+    }
+    
+    else if(normalizedValL > 400){
+      Dxl.goalSpeed(1, 400); //turn right
+      Dxl.goalSpeed(2, 400 | 0x400); 
+    }
+      
+    else if(normalizedValR > 400){
+      Dxl.goalSpeed(1, 400 | 0x400); //turn left
+      Dxl.goalSpeed(2, 400); 
+    }
+    
+    else{
+      Dxl.goalSpeed(1, 400); //forward
+      Dxl.goalSpeed(2, 400); 
+    }
+  }  
+  
+}
