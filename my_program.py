@@ -109,16 +109,32 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True    
-    
+
+    jl00 = my_joystick.get_axis(0)
+    jl01 = my_joystick.get_axis(1)
+    jl10 = my_joystick.get_axis(2)
+    jl11 = my_joystick.get_axis(3)
+
+    ref.ref[0] = 0
+    ref.ref[1] = 0
+
+"""    
     if my_joystick.get_button(5)==1:
-    	ref.ref[0] = 0.5
-    	ref.ref[1] = 0.5
+    	ref.ref[0] = 2.5
+    	ref.ref[1] = 2.5
     elif my_joystick.get_button(4)==1:
-    	ref.ref[0] = -0.5
-    	ref.ref[1] = 0.5
+    	ref.ref[0] = -2.5
+    	ref.ref[1] = -2.5
+    elif my_joystick.get_button(7)==1:
+        ref.ref[0] = -2.5
+        ref.ref[1] = 2.5
+    elif my_joystick.get_button(6)==1:
+        ref.ref[0] = 2.5
+        ref.ref[1] = -2.5
     else:
     	ref.ref[0] = 0
     	ref.ref[1] = 0
+"""
     print 'Sim Time = ', tim.sim[0]
     print my_joystick.get_button(5)
     print my_joystick.get_button(4)
